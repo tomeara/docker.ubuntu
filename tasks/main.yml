@@ -129,14 +129,16 @@
   shell: easy_install --upgrade pip
 
 # Upgrade pip with pip to fix angstwad/docker.ubuntu/pull/35 and docker-py/issues/525
-- name: Upgrade latest pip, setuptools, and docker-py with pip
+- name: Upgrade latest pip, setuptools with pip
   pip:
     name: "{{ item }}"
     state: latest
   with_items:
     - pip
     - setuptools
-    - docker-py
+
+- name: Install docker-py
+  pip: name=docker-py version=1.1.0
 
 - name: Check if /etc/updatedb.conf exists
   stat:
