@@ -44,7 +44,7 @@ Requires python-pycurl for apt modules.
 Role Variables
 --------------
 
-These are the defaults, which can be set to present to prevent a reboot if the latest linux-image-extra, cgroup-lite packages are already installed.  
+These are the defaults, which can be set to present to prevent a reboot if the latest linux-image-extra, cgroup-lite packages are already installed.
 The following role variables are defined:
 
 ```
@@ -70,8 +70,14 @@ apt_repository: deb http://get.docker.io/ubuntu docker main
 #  -H tcp://0.0.0.0:2375
 #  --log-level=debug
 docker_opts: ""
-
-#docker_version: 1.2.0
+# Install Xorg packages for backported kernels.  This is usually unnecessary except for environments
+# where an X/Unit desktop is actively being used. If you're not using an X/Unity on 12.04, you
+# won't need to enable this.
+install_xorg_pkgs: false
+# Force an install of the kernel extras, in case you're suffering from some issue related to the
+# static binary provided by upstream Docker.  For example, see this GitHub Issue in Docker:
+# https://github.com/docker/docker/issues/12750
+install_kernel_extras: false
 
 ```
 
@@ -79,6 +85,15 @@ Dependencies
 ------------
 
 None.
+
+Testing
+-------
+
+To test the role in a Vagrant environment just run `vagrant up`.  This will
+create two VMs, one based on Ubuntu 12.04 and second based on Ubuntu 14.04,
+and it will provision them by applying this role with Ansible.
+
+Requires `ansible-playbook` to be in the path.
 
 License
 -------
